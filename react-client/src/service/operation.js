@@ -1,8 +1,16 @@
 import { apiConnector } from "./apiConnector";
+import { endpoints } from "./api";
 
+const {GET_CARS}=endpoints;
 //get distance using longitude and latitude
-export const getDistance=async(lat1,lon1,lat2,lon2)=>{
-    const res=await apiConnector('GET',`http://router.project-osrm.org/route/v1/driving/${lon1},${lat1};${lon2},${lat2}?overview=false`)
-    console.log(res)
-    return res;
+
+export const getCars=async(lat1,lon1,lat2,lon2)=>{
+    try{
+    const res=await apiConnector('POSt',GET_CARS,{lat1,lon1,lat2,lon2})
+    return res.data;
+    }
+ catch(error)
+ {
+    return error.response.data
  }
+}

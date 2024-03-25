@@ -1,29 +1,31 @@
 import { Alert, Button, Datepicker, Label, TextInput } from "flowbite-react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { addresses } from "../../assets/data/address.js";
-import { getDistance } from "../../service/operation.js";
+import { getCars } from "../../service/operation.js";
+import { JourneyDetailsContext } from "../../contextApi/JourneyDetailsContext.jsx";
 
 const CarInput = () => {
-  const [carFormData, setCarFormData] = useState({
-    travelDate: new Date().toLocaleDateString(),
-    dropOff: null,
-    pickUp: null,
-    username: null,
-  });
+  
   const [formError, setFormError] = useState(null);
-  const[distance, setDistance] = useState(null)
-  const[duration, setDuration] = useState(null)
+  const[loading, setLoading] = useState(false)
+  const {setAvailableCars,setDistance,setDuration,carFormData, setCarFormData}=useContext(JourneyDetailsContext);
+  
+  
   
   const handleSubmit = async(e) => {
+  
     e.preventDefault();
+    setLoading(true)
+    try{
     if (
       !carFormData.dropOff &&
       !carFormData.pickUp &&
       !carFormData.username
-    ) {
-      setFormError("All Fields are Required");
-      return;
+    ) {console.log("here")
+    console.log(carFormData)
+      throw new Error("All Fields are Required");
     }
+
     let pickupCount = 0,
       dropOffCount = 0,
       lon1=null,lon2=null,lat1=null,lat2=null;
@@ -32,35 +34,59 @@ const CarInput = () => {
       if (element.address === carFormData.pickUp) 
       {
         pickupCount++;
-        setCarFormData((prevState)=>({...prevState, pickUp:element}))
+       
         lat1=element.latitude ;
         lon1=element.longitude;
         }
 
       if (element.address === carFormData.dropOff) {
         dropOffCount++;
-        setCarFormData((prevState)=>({...prevState, dropOff:element}))
+       
         lat2=element.latitude ;
         lon2=element.longitude;
       }
     });
     
     if (pickupCount === 0 || dropOffCount === 0) {
-      setFormError(
+      throw new Error(
         "Pick up and Drop Off address should be choosen from the drop down..."
       );
-      return;
+     
     }
     if(carFormData.pickUp===carFormData.dropOff)
     { 
-      setFormError("Pick up and Drop Off address should not be same");
-      return;
+      throw new Error("Pick up and Drop Off address should not be same");
     }
 
-    const response = await getDistance(lat1,lon1,lat2,lon2);
+
+    const response = await getCars(lat1,lon1,lat2,lon2)
+    
+    
+    if(response.success)
+    {
+      setAvailableCars(response.availableCars)
+      setDistance(response.distance)
+      setDuration(response.duration)
+      console.log(response)
+     
+    }
+    else{
+      console.log(response)
+      throw new Error(response.message)
+    }
+  }
+  catch(error){
+    console.log(error)
+    setFormError(error.message)
+
+ 
+  }
+ 
+  setLoading(false)
 
   };
-
+ 
+  
   const handleChangeDate = (date) => {
     console.log(date);
     setCarFormData((prevState) => ({
@@ -85,7 +111,7 @@ const CarInput = () => {
   
 
   return (
-    <div className=" mt-16 w-full ">
+    <div className=" mt-16 w-full md:mb-0 mb-24 ">
       <form
         onSubmit={handleSubmit}
         className="flex flex-col gap-2  p-4 
@@ -105,6 +131,8 @@ const CarInput = () => {
           placeholder="Pick-up Location"
           name="pickUp"
           id="pickUp"
+          value={carFormData.pickUp}
+          
           onChange={handleOnChange}
           required
         />
@@ -123,6 +151,7 @@ const CarInput = () => {
           placeholder="Drop-off Location"
           name="dropOff"
           id="dropOff"
+          value={carFormData.dropOff}
           onChange={handleOnChange}
           required
         />
@@ -138,6 +167,7 @@ const CarInput = () => {
         <Datepicker
           name="traveldate"
           id="traveldate"
+          value={carFormData.travelDate}
           onSelectedDateChanged={handleChangeDate}
         />
 
@@ -149,12 +179,13 @@ const CarInput = () => {
           placeholder="username"
           name="username"
           id="username"
+          value={carFormData.username}
           onChange={handleOnChange}
           required
         ></TextInput>
 
-        <Button type="submit" gradientDuoTone="purpleToBlue" outline>
-          Book a Ride
+      <Button type="submit" gradientDuoTone="purpleToBlue" disabled={loading} outline>
+          {loading?"Loading...":"Book a Ride"}
         </Button>
       </form>
       {formError && <Alert color="failure" className="mt-3">{formError}</Alert>}

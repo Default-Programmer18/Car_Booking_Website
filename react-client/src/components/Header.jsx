@@ -14,7 +14,7 @@ const Header = () => {
   
   return (
     <Navbar className='border-b-2 px-3 bg-gradient-to-br from-teal-300/25 via-white to-blue-300/30' >
-        <Link to={"/"} className='self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white font-mono'>
+        <Link to={"/"} className='self-center whitespace-nowrap text-xl  font-semibold dark:text-white font-mono'>
             Drive.
             <span className='px-2 py-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg text-white'>Hub</span>
             
@@ -27,24 +27,7 @@ const Header = () => {
         </Button> 
       }
         
-       {
-        currentUser?(<Dropdown arrowIcon={false}
-        inline
-        label={<Avatar alt='user' img={currentUser.image} rounded></Avatar>}
-        >
-        <Dropdown.Header>
-            <span className='block text-sm'>@{currentUser.username}</span>
-        </Dropdown.Header>
-        <Link to={'/dashboard?tab=profile'}>
-            <Dropdown.Item>Profile</Dropdown.Item>
-        </Link>
-        </Dropdown>):
-        ( <Link to={'/signin'}>
-            <Button outline gradientDuoTone={'greenToBlue'} >
-                Sign in
-            </Button>
-        </Link>)
-       }
+      
         <Navbar.Toggle/>
         </div>
         <Navbar.Collapse>

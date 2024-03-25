@@ -4,7 +4,7 @@ const Hero=()=>{
     return(
         <div className="flex gap-4 w-screen h-[35em] px-10  ">
         <img src={car1} className="w-[60%] mt-10   md:block hidden"></img>
-        <CarInput/>
+        <CarInput />
 
         <div></div>
         </div>
