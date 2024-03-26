@@ -15,10 +15,14 @@ app.use(
     credentials: true, // Allow cookies and authorization headers
   })
 );
+// Setting up port number
+const PORT = process.env.PORT ;
 
-app.listen(process.env.PORT, () => {
-  console.log("Server is running on port " + process.env.PORT);
-});
+//set dirname
+__dirname = path.resolve();
+
+
+
 
 app.use("/api/v1/cars", carsRouter);
 app.use("/api/v1/booking", bookingRouter);
@@ -33,4 +37,15 @@ app.use((err, req, res, next) => {
     success,
     message,
   });
+});
+
+app.use(express.static(path.join(__dirname,'/react-client/dist')));
+
+app.get('*',(req,res)=>{
+	res.sendFile(path.join(__dirname,'react-client','dist','index.html'));
+})
+
+
+app.listen(process.env.PORT, () => {
+  console.log("Server is running on port " + process.env.PORT);
 });
