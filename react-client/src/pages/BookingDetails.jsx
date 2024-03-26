@@ -32,7 +32,7 @@ const BookingDetails = () => {
   if(loading)
   {
     return (
-      <div className='txt-center'>
+      <div className='flex gap-5 h-[70%]  items-center justify-center'>
       <Spinner aria-label="Spinner " size="xl" />
       <span className="pl-3">Loading...</span>
       </div>
