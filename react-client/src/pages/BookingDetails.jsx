@@ -62,8 +62,8 @@ const BookingDetails = () => {
                   </Table.Cell>
                   <Table.Cell>
                     Rs.{" "}
-                    {parseFloat(details.distance).toFixed(2) *
-                      details.car.amountChargedPerKm}
+                    {(parseFloat(details.distance).toFixed(2) *
+                      details.car.amountChargedPerKm).toFixed(2)}
                     /-
                   </Table.Cell>
                 </Table.Row>

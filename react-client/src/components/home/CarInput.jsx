@@ -7,9 +7,7 @@ import { JourneyDetailsContext } from "../../contextApi/JourneyDetailsContext.js
 // CarInput component
 const CarInput = () => {
   // State variables for form handling
-  const disabledDays = {
-    before: new Date(),
-  };
+ 
   const [formError, setFormError] = useState(null); // State for form error
   const [loading, setLoading] = useState(false); // State for loading state
   const {
@@ -109,7 +107,7 @@ const CarInput = () => {
       travelDate: date.toLocaleDateString(),
     }));
   };
-  console.log(new Date())
+  
   // Function to handle input change
   const handleOnChange = (e) => {
     setCarFormData({
@@ -186,9 +184,10 @@ const CarInput = () => {
         <Datepicker
           name="travelDate"
           id="travelDate"
-          
+        
           value={carFormData.travelDate}
           onSelectedDateChanged={handleChangeDate}
+          minDate={new Date()}
          
           
         />

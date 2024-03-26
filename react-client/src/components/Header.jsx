@@ -7,7 +7,7 @@ const Header = () => {
   const path = location.pathname; // Extract the current path from location
 
   return (
-    <Navbar className="border-b-2 px-3 bg-gradient-to-br from-teal-300/25 via-white to-blue-300/30">
+    <Navbar className="border-b-2 px-3 bg-gradient-to-br from-teal-300/25 via-white to-blue-300/30 ">
       <Link
         to={"/"}
         className="self-center whitespace-nowrap text-xl  font-semibold dark:text-white font-mono"
@@ -17,15 +17,16 @@ const Header = () => {
           Hub
         </span>
       </Link>
-
-      <Navbar.Collapse>
+<Navbar.Toggle/>
+      <Navbar.Collapse className="mx-auto">
         <Navbar.Link active={path === "/"} as={"div"}>
           <Link to={"/"}>Home</Link>
         </Navbar.Link>
-        <Navbar.Link active={path === "/about"} as={"div"}>
+        <Navbar.Link active={path === "/booking-details"} as={"div"}>
           <Link to={"/booking-details"}>Booking Details</Link>
         </Navbar.Link>
       </Navbar.Collapse>
+     
     </Navbar>
   );
 };
