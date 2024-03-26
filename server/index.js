@@ -3,7 +3,12 @@ const app = express();
 const cors = require("cors");
 const carsRouter = require("./routers/car.routes.js");
 const bookingRouter = require("./routers/booking.routes.js");
+const path=require("path")
 const dbConnect = require("./database/dbConnect.js");
+
+
+
+
 dbConnect();
 
 const dotenv = require("dotenv");
