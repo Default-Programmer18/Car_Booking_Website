@@ -11,8 +11,8 @@ exports.getDistanceAndDuration = async(req,resp,next)=>{
         const data = await response.json();
     
         // Extract the distance from the response
-        const distance = data.routes[0].distance/60;
-        const duration = data.routes[0].duration/1000;
+        const distance = data.routes[0].distance/1000;
+        const duration = data.routes[0].duration/60;
     
         // add the distance and duration to the req and pass it to the next handler
         req.duration = duration
@@ -22,8 +22,8 @@ exports.getDistanceAndDuration = async(req,resp,next)=>{
     
     } catch (error) {
         // If an error occurs, send an error response
-        console.error('Error fetching distance:', error);
-        return resp.status(500).json({ error: 'Error fetching distance' });
+
+        return resp.status(500).json({ error: 'Error fetching distance and duration' });
       }
     
 }

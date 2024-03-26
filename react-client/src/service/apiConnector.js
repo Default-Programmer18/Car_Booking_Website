@@ -2,6 +2,7 @@ import axios from "axios";
 
 export const axiosInstance = axios.create({});
 
+//Function to make API requests using Axios
 export const apiConnector = (method, url, bodyData, headers, params) => {
   return axiosInstance({
     method:`${method}`,

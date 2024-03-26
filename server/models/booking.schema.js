@@ -1,50 +1,55 @@
-const mongoose = require('mongoose')
-const bookingSchema= new mongoose.Schema({
-    user:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
-
+const mongoose = require("mongoose");
+const bookingSchema = new mongoose.Schema(
+  {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
 
     pickup_location: {
-        latitude:
-         {
-            type: string,
-            required: true
-        },
-        longitude: 
-        {
-            type: string,
-            required: true
-        },
-        address:{
-            type: string,
-            required: true
-        },
+      latitude: {
+        type: String,
+        required: true,
+      },
+      longitude: {
+        type: String,
+        required: true,
+      },
+      address: {
+        type: String,
+        required: true,
+      },
     },
     dropoff_location: {
-        latitude:
-         {
-            type: string,
-            required: true
-        },
-        longitude: 
-        {
-            type: string,
-            required: true
-        },
-        address:{
-            type: string,
-            required: true
-        },
+      latitude: {
+        type: String,
+        required: true,
+      },
+      longitude: {
+        type: String,
+        required: true,
+      },
+      address: {
+        type: String,
+        required: true,
+      },
     },
-    carId:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Car',
-        required: true
-    }
-
-})
-const Booking=mongoose.model('Booking',bookingSchema)
+    car: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Cars",
+      required: true,
+    },
+    distance: {
+      type: String,
+      required: true,
+    },
+    duration: {
+      type: String,
+      required: true,
+    },
+  },
+  { timestamps: true, new: true }
+);
+const Booking = mongoose.model("Booking", bookingSchema);
 module.exports = Booking;
