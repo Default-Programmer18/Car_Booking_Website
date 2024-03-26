@@ -1,24 +1,41 @@
-import {Table } from "flowbite-react";
+import {Spinner, Table } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import { getBookedCarDetails } from "../service/operation";
 
 const BookingDetails = () => {
-  const [error, setError] = useState(null);
+  
   const [bookedDetails, setBookedDetails] = useState([]);
+  const[loading,setLoading]=useState(true);
+
   // Effect hook to fetch booked car details when component mounts
   useEffect(() => {
     (async () => {
+      
       try {
         const res = await getBookedCarDetails();
         if (!res.success) {
           throw new Error(res.message);
         }
+        setLoading(false)
+        toast.success(res.message)
         setBookedDetails(res.bookingDetails);
       } catch (error) {
-        setError(error.message);
+        toast.error(error.message)
+       
+        setLoading(false)
       }
     })();
   }, []);
+ 
+  if(loading)
+  {
+    return (
+      <div className='txt-center'>
+      <Spinner aria-label="Spinner " size="xl" />
+      <span className="pl-3">Loading...</span>
+      </div>
+    )
+  }
   return (
     <>{/* Conditional rendering based on whether bookedDetails array is empty */}
       {bookedDetails.length === 0 ? (
