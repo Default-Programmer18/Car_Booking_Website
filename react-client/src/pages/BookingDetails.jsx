@@ -1,6 +1,7 @@
 import {Spinner, Table } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import { getBookedCarDetails } from "../service/operation";
+import {toast} from "react-hot-toast"
 
 const BookingDetails = () => {
   
@@ -17,8 +18,9 @@ const BookingDetails = () => {
           throw new Error(res.message);
         }
         setLoading(false)
-        toast.success(res.message)
         setBookedDetails(res.bookingDetails);
+        toast.success(res.message)
+       
       } catch (error) {
         toast.error(error.message)
        
